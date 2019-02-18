@@ -7,10 +7,10 @@ let arr, min, max;
 
 
 function preload() {
-    txtScl = loadStrings("preguntas/santiago.txt");
-    txtCcp = loadStrings("preguntas/concepcion.txt");
-    txtVal = loadStrings("preguntas/valdivia.txt");
-    txtPap = loadStrings("preguntas/patagonia.txt");
+    txtScl = loadStrings("preguntas/sedes/santiago.txt");
+    txtCcp = loadStrings("preguntas/sedes/concepcion.txt");
+    txtVal = loadStrings("preguntas/sedes/valdivia.txt");
+    txtPap = loadStrings("preguntas/sedes/patagonia.txt");
     f_FiraSansLI = loadFont('fira-sans/FiraSans-Regular.otf');
 }
 
