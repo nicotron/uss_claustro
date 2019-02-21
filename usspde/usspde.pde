@@ -17,7 +17,8 @@ PrintWriter escribirResultado;
 void setup() {
     escribirResultado = createWriter("similitud.txt");
     String path = sketchPath("data"); // Variable para acceder a la carpeta
-    File[] files = listFiles(path); // Lista de objetos con los archivos
+    // File[] files = listFiles(path); // Lista de objetos con los archivos
+    File[] files = listFiles("D:\1_NICOTRON\1_Projects\uss_claustro\usspde\data\concepcion"); // Lista de objetos con los archivos
 
 
     // Crear el diccionario con todas las palabras únicas de todos los documentos
