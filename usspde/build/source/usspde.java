@@ -33,29 +33,29 @@ IDF: ""
 IntDict contador, diccionario; // Clase que trabaja con diccionarios y números
 ArrayList < Documento > listaDocumentos = new ArrayList < Documento > ();
 PrintWriter escribirResultado;
+
 public void setup() {
-    escribirResultado = createWriter("similitud.txt");
+    escribirResultado = createWriter("similitud_todas_preguntas.txt");
     String path = sketchPath("data"); // Variable para acceder a la carpeta
     File[] files = listFiles(path); // Lista de objetos con los archivos
 
-
     // Crear el diccionario con todas las palabras únicas de todos los documentos
     diccionario = new IntDict();
-    //for (int i = 1; i < files.length; i++) {
-    for (int i = 1; i < 10; i++) {
+    for (int i = 1; i < files.length; i++) {
         contador = new IntDict();
         // Convertir el nombre del archivo para ser leído como variable de lectura loadStrings
-        String fileTexto = files[i].getName();
+        String fileName = files[i].getName();
 
-        // Tomar cada palabra y descartar signos
-        String[] lines = loadStrings(fileTexto);
-        String textoSinCorte = join(lines, " ");
+        /* Cargar el archivo en un array de líneas de texto, juntarlas en
+        una gran línea, y separar por palabra usando REGEX command
+        */
+        String[] lines = loadStrings(fileName);
+        String textoSinCorte = join(lines, "\n");
         String[] palabras = splitTokens(textoSinCorte, "\", .:¿?!¡()-");
 
         // Saber qué texto es, e iterar por sus palabras convertidas en minúsculas
         // Iterar por cada palabra y sumar la cantidad que aparece en el documento
-        // println("TEXTO : " + fileTexto);
-
+        // println("TEXTO : " + fileName);
         for (int j = 0; j < palabras.length; j++) {
             String palabra = palabras[j].toLowerCase();
 
@@ -69,7 +69,7 @@ public void setup() {
         }
         // con cada documento, crear un objeto con nombre, key, value, totalWords
         // añadir cada objeto Documento a una lista
-        Documento d = new Documento(fileTexto, contador.keyArray(), contador.valueArray(), palabras.length);
+        Documento d = new Documento(fileName, contador.keyArray(), contador.valueArray(), palabras.length);
         listaDocumentos.add(d);
     }
 
@@ -105,8 +105,13 @@ public void setup() {
     }
     escribirResultado.flush();
     escribirResultado.close();
-    exit();
+    // exit();
+
+    // GRAPHICS SETTINGS -------------------------------------------------------
+    
 }
+
+
 
 public double tf(Documento doc, String keys) {
     double resultado = 0;
@@ -154,22 +159,72 @@ public File[] listFiles(String dir) {
         return null;
     }
 }
+
+public void draw() {
+    background(255);
+    for (int i = 0; i < listaDocumentos.size(); i++) {
+        Documento d = listaDocumentos.get(i);
+        String titulo = d.name;
+        float y = map(i, 0, listaDocumentos.size(), height * .025f, height * .99f);
+        fill(0);
+        textSize(15);
+        text(d.totalPalabras, 10, y);
+        text(titulo, 60, y);
+        d.wordCount(200, y);
+    }
+}
 class Documento {
     String[] key;
     float tf, idf;
     double tfidf;
-    String[] bagOfWords;
     int[] freq;
     String name;
     int value, totalPalabras;
 
+    // nueva clase
+    Palabra palabra;
+
     Documento(String name, String[] key, int[] freq, int totalPalabras) {
-        this.name = name;
+        // arrays
         this.key = key;
         this.freq = freq;
+
+        // primitiva variables
         this.totalPalabras = totalPalabras;
+        this.name = name;
+    }
+
+    public void wordCount(float x, float y) {
+        int largoPalabra = 0;
+        String todas = "";
+
+        for (int i = 0; i < key.length; i++) {
+            if (freq[i] > 5) {
+                todas += key[i] + ": " + freq[i] + " ";
+                // largoPalabra += key[i].length();
+                // largoPalabra += freq[i];
+                fill(0);
+                // text(key[i] + ": " + freq[i], x+largoPalabra, y);
+                text(todas, x, y);
+            }
+        }
+    }
+
+    // boolean ranking(int limit){
+    //     if()
+    // }
+
+}
+class Palabra {
+    String key;
+    int value;
+
+    Palabra(String k, int v) {
+        this.key = k;
+        this.value = v;
     }
 }
+  public void settings() {  size(3500, 1900); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "usspde" };
     if (passedArgs != null) {

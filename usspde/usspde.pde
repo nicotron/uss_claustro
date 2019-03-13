@@ -14,30 +14,29 @@ import java.util.List;
 IntDict contador, diccionario; // Clase que trabaja con diccionarios y números
 ArrayList < Documento > listaDocumentos = new ArrayList < Documento > ();
 PrintWriter escribirResultado;
-void setup() {
-    escribirResultado = createWriter("similitud.txt");
-    String path = sketchPath("data"); // Variable para acceder a la carpeta
-    // File[] files = listFiles(path); // Lista de objetos con los archivos
-    File[] files = listFiles("D:\1_NICOTRON\1_Projects\uss_claustro\usspde\data\concepcion"); // Lista de objetos con los archivos
 
+void setup() {
+    escribirResultado = createWriter("similitud_todas_preguntas.txt");
+    String path = sketchPath("data"); // Variable para acceder a la carpeta
+    File[] files = listFiles(path); // Lista de objetos con los archivos
 
     // Crear el diccionario con todas las palabras únicas de todos los documentos
     diccionario = new IntDict();
-    //for (int i = 1; i < files.length; i++) {
-    for (int i = 1; i < 10; i++) {
+    for (int i = 1; i < files.length; i++) {
         contador = new IntDict();
         // Convertir el nombre del archivo para ser leído como variable de lectura loadStrings
-        String fileTexto = files[i].getName();
+        String fileName = files[i].getName();
 
-        // Tomar cada palabra y descartar signos
-        String[] lines = loadStrings(fileTexto);
-        String textoSinCorte = join(lines, " ");
+        /* Cargar el archivo en un array de líneas de texto, juntarlas en
+        una gran línea, y separar por palabra usando REGEX command
+        */
+        String[] lines = loadStrings(fileName);
+        String textoSinCorte = join(lines, "\n");
         String[] palabras = splitTokens(textoSinCorte, "\", .:¿?!¡()-");
 
         // Saber qué texto es, e iterar por sus palabras convertidas en minúsculas
         // Iterar por cada palabra y sumar la cantidad que aparece en el documento
-        // println("TEXTO : " + fileTexto);
-
+        // println("TEXTO : " + fileName);
         for (int j = 0; j < palabras.length; j++) {
             String palabra = palabras[j].toLowerCase();
 
@@ -51,7 +50,7 @@ void setup() {
         }
         // con cada documento, crear un objeto con nombre, key, value, totalWords
         // añadir cada objeto Documento a una lista
-        Documento d = new Documento(fileTexto, contador.keyArray(), contador.valueArray(), palabras.length);
+        Documento d = new Documento(fileName, contador.keyArray(), contador.valueArray(), palabras.length);
         listaDocumentos.add(d);
     }
 
@@ -87,8 +86,13 @@ void setup() {
     }
     escribirResultado.flush();
     escribirResultado.close();
-    exit();
+    // exit();
+
+    // GRAPHICS SETTINGS -------------------------------------------------------
+    size(3500, 1900);
 }
+
+
 
 double tf(Documento doc, String keys) {
     double resultado = 0;
@@ -134,5 +138,19 @@ File[] listFiles(String dir) {
     } else {
         // If it's not a directory
         return null;
+    }
+}
+
+void draw() {
+    background(255);
+    for (int i = 0; i < listaDocumentos.size(); i++) {
+        Documento d = listaDocumentos.get(i);
+        String titulo = d.name;
+        float y = map(i, 0, listaDocumentos.size(), height * .025, height * .99);
+        fill(0);
+        textSize(15);
+        text(d.totalPalabras, 10, y);
+        text(titulo, 60, y);
+        d.wordCount(200, y);
     }
 }

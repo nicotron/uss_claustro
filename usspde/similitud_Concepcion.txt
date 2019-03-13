@@ -1,0 +1,14 @@
+p02-02-c.txt p08-07-c.txt
+p05-04-c.txt p18-14-c.txt
+p06-05-c.txt p12-08-c.txt
+p07-05-c.txt p10-09-c.txt
+p07-07-c.txt p08-06-c.txt
+p08-06-c.txt p07-07-c.txt
+p08-07-c.txt p07-05-c.txt
+p09-06-c.txt p15-11-c.txt
+p10-09-c.txt p13-12-c.txt
+p11-10-c.txt p05-04-c.txt
+p12-08-c.txt p07-07-c.txt
+p13-12-c.txt p09-06-c.txt
+p15-11-c.txt p09-06-c.txt
+p18-14-c.txt p05-04-c.txt
