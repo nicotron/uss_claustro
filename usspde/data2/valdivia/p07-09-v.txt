@@ -2,7 +2,7 @@ Ejemplo: Gerontología con enfoque interdisciplinar con salida en tres programas
 1-salud 
 2-educación
 3 –psicosocial
-	•	Crear un centro de formación de postgrado interdisciplinar o que represente a todas las facultades
+Crear un centro de formación de postgrado interdisciplinar o que represente a todas las facultades
 Comité administrativo de gestión
 Comité académico interdisciplinar
 Misión: generar programas de postgrado, núcleos de investigación

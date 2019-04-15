@@ -18,7 +18,7 @@ void setup() {
     //table[i].addColumn("nombre");
     //table[i].addColumn("rol");
     //table[i].addColumn("facilitador");
-  
+
   }
 
   println(table.getRowCount() + " filas total");
